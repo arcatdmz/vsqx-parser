@@ -1,3 +1,4 @@
+const vsq3NS = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/";
 const vsq4NS = "http://www.yamaha.co.jp/vocaloid/schema/vsq4/";
 
 interface VSQXParseResult {
@@ -17,15 +18,18 @@ export function parse(xml: string): VSQXParseResult {
   }
   if (
     doc.children.length <= 0 ||
-    doc.children[0].namespaceURI !== vsq4NS ||
-    doc.children[0].tagName !== "vsq4"
+    (doc.children[0].namespaceURI !== vsq3NS &&
+      doc.children[0].namespaceURI !== vsq4NS) ||
+    (doc.children[0].tagName !== "vsq3" && doc.children[0].tagName !== "vsq4")
   ) {
     return { error: "Unsupported VSQX format", data: null };
   }
   const raw = doc.children[0];
-  const venderEl = raw.querySelector("vsq4>vender"),
+  const venderEl =
+      raw.querySelector("vsq3>vender") || raw.querySelector("vsq4>vender"),
     vender = venderEl && venderEl.textContent;
-  const versionEl = raw.querySelector("vsq4>version"),
+  const versionEl =
+      raw.querySelector("vsq3>version") || raw.querySelector("vsq4>version"),
     version = versionEl && versionEl.textContent;
   return {
     data: {
