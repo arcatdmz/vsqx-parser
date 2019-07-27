@@ -1,0 +1,12 @@
+
+# Rollup.js TypeScript plugin cache
+.rpt2_cache/
+
+# Visual Studio Code configurations
+.vscode/
+
+# Source code
+lib/
+.editorconfig
+rollup.config.js
+tsconfig.json

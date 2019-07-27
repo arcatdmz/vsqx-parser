@@ -1,7 +1,16 @@
 {
   "name": "vsqx-parser",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -cw"
+  },
   "repository": "https://github.com/arcatdmz/vsqx-parser.git",
   "author": "Jun Kato <i@junkato.jp>",
   "license": "MIT",
