@@ -8,6 +8,7 @@
   ],
   "types": "dist/index.d.ts",
   "scripts": {
+    "dev": "parcel example/index.html -d output",
     "build": "rollup -c",
     "watch": "rollup -cw"
   },

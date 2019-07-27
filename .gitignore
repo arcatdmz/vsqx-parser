@@ -8,6 +8,10 @@ yarn-error.log*
 # Rollup.js TypeScript plugin cache
 .rpt2_cache
 
+# Parcel.js bundler cache
+.cache
+output
+
 # Dependency directories
 node_modules/
 
