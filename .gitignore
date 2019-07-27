@@ -10,7 +10,6 @@ yarn-error.log*
 
 # Parcel.js bundler cache
 .cache
-output
 
 # Dependency directories
 node_modules/
