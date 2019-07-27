@@ -1,11 +1,20 @@
+import { parseVSQ3Tempos } from "./vsq3";
+import { parseVSQ4Tempos } from "./vsq4";
+
 const vsq3NS = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/";
 const vsq4NS = "http://www.yamaha.co.jp/vocaloid/schema/vsq4/";
 
-interface VSQXParseResult {
+export interface Tempo {
+  tick: number;
+  bpm: number;
+}
+
+export interface VSQXParseResult {
   error?: string;
   data: {
     vender: string;
     version: string;
+    tempos: Tempo[];
     raw: Element;
   };
 }
@@ -31,10 +40,13 @@ export function parse(xml: string): VSQXParseResult {
   const versionEl =
       raw.querySelector("vsq3>version") || raw.querySelector("vsq4>version"),
     version = versionEl && versionEl.textContent;
+  const v3 = doc.children[0].tagName === "vsq3";
+  const tempos = v3 ? parseVSQ3Tempos(raw) : parseVSQ4Tempos(raw);
   return {
     data: {
       vender,
       version,
+      tempos,
       raw
     }
   };
