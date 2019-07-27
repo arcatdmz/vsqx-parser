@@ -4,5 +4,13 @@
   "main": "index.js",
   "repository": "https://github.com/arcatdmz/vsqx-parser.git",
   "author": "Jun Kato <i@junkato.jp>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.3",
+    "rollup": "^1.17.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.1.1",
+    "rollup-plugin-typescript2": "^0.22.1",
+    "typescript": "^3.5.3"
+  }
 }
