@@ -33,6 +33,6 @@ function handleFileSelect() {
       });
     }
   });
-  reader.readAsBinaryString(file);
+  reader.readAsText(file);
   // Array.from(input.files).forEach(console.log.bind(console));
 }

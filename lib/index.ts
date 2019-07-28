@@ -1,6 +1,6 @@
 import { VSQXParseResult } from "./common";
 import { parseVSQ3Tempos, parseVSQ3Tracks, parseVSQ3Voices } from "./vsq3";
-import { parseVSQ4Tempos } from "./vsq4";
+import { parseVSQ4Tempos, parseVSQ4Voices, parseVSQ4Tracks } from "./vsq4";
 
 const vsq3NS = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/";
 const vsq4NS = "http://www.yamaha.co.jp/vocaloid/schema/vsq4/";
@@ -28,8 +28,10 @@ export function parse(xml: string): VSQXParseResult {
     version = versionEl && versionEl.textContent;
   const v3 = doc.children[0].tagName === "vsq3";
   const tempos = v3 ? parseVSQ3Tempos(raw) : parseVSQ4Tempos(raw);
-  const voices = v3 ? parseVSQ3Voices(raw) : null;
-  const tracks = v3 ? parseVSQ3Tracks(raw, voices) : null;
+  const voices = v3 ? parseVSQ3Voices(raw) : parseVSQ4Voices(raw);
+  const tracks = v3
+    ? parseVSQ3Tracks(raw, voices)
+    : parseVSQ4Tracks(raw, voices);
   return {
     data: {
       vender,
