@@ -1,4 +1,4 @@
-import { Tempo } from "./index";
+import { Tempo } from "./common";
 
 export function parseVSQ4Tempos(el: Element): Tempo[] {
   return (Array.prototype.slice.call(

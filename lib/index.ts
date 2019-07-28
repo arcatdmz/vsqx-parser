@@ -1,55 +1,9 @@
+import { VSQXParseResult } from "./common";
 import { parseVSQ3Tempos, parseVSQ3Tracks, parseVSQ3Voices } from "./vsq3";
 import { parseVSQ4Tempos } from "./vsq4";
 
 const vsq3NS = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/";
 const vsq4NS = "http://www.yamaha.co.jp/vocaloid/schema/vsq4/";
-
-export interface Voice {
-  vbs: number;
-  vpc: number;
-  name: string;
-}
-
-export interface Tempo {
-  tick: number;
-  bpm: number;
-}
-
-export interface Track {
-  no: number;
-  name: string;
-  comment: string;
-  content: MusicalPart;
-}
-
-export interface MusicalPart {
-  tick: number;
-  playTime: number;
-  singer: Voice;
-  comment: string;
-  notes: Note[];
-}
-
-export interface Note {
-  tick: number;
-  duration: number;
-  note: number;
-  velocity: number;
-  lyric: string;
-  phonemes: string;
-}
-
-export interface VSQXParseResult {
-  error?: string;
-  data: {
-    vender: string;
-    version: string;
-    voices: Voice[];
-    tempos: Tempo[];
-    tracks: Track[];
-    raw: Element;
-  };
-}
 
 export function parse(xml: string): VSQXParseResult {
   const parser = new DOMParser();
@@ -86,10 +40,6 @@ export function parse(xml: string): VSQXParseResult {
       raw
     }
   };
-}
-
-export function findVoice(voiceDb: Voice[], vbs: number, vpc: number): Voice {
-  return voiceDb.find(v => v.vbs === vbs && v.vpc === vpc);
 }
 
 // https://stackoverflow.com/questions/11563554/how-do-i-detect-xml-parsing-errors-when-using-javascripts-domparser-in-a-cross

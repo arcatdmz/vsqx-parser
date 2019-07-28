@@ -1,4 +1,4 @@
-import { Tempo, Track, Voice, MusicalPart, findVoice } from "./index";
+import { Tempo, Track, Voice, MusicalPart, findVoice } from "./common";
 
 export function parseVSQ3Voices(el: Element): Voice[] {
   return (Array.prototype.slice.call(
