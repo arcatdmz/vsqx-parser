@@ -5,6 +5,7 @@ export interface Voice {
 }
 export interface Tempo {
     tick: number;
+    duration: number;
     bpm: number;
 }
 export interface Track {
@@ -15,7 +16,7 @@ export interface Track {
 }
 export interface MusicalPart {
     tick: number;
-    playTime: number;
+    duration: number;
     singer: Voice;
     comment: string;
     notes: Note[];
@@ -33,6 +34,7 @@ export interface VSQXParseResult {
     data: {
         vender: string;
         version: string;
+        resolution: number;
         voices: Voice[];
         tempos: Tempo[];
         tracks: Track[];

@@ -14,16 +14,24 @@ function parseVoice(voice: Element): Voice {
 }
 
 export function parseVSQ4Tempos(el: Element): Tempo[] {
-  return (Array.prototype.slice.call(
+  const tempos = (Array.prototype.slice.call(
     el.querySelectorAll("vsq4>masterTrack>tempo")
   ) as Element[]).map(parseTempo);
+  tempos.forEach((tempo, i) => {
+    if (i < tempos.length - 1) {
+      tempo.duration = tempos[i + 1].tick - tempo.tick;
+    }
+  });
+  return tempos;
 }
 
 function parseTempo(tempo: Element): Tempo {
   const tick = parseInt(tempo.querySelector("t").textContent);
+  const duration = -1;
   const bpm = parseInt(tempo.querySelector("v").textContent);
   return {
     tick,
+    duration,
     bpm
   };
 }
@@ -58,7 +66,7 @@ function parseMusicalPart(vsPart: Element, voiceDb: Voice[]): MusicalPart {
   const notes = (Array.prototype.slice.call(
     vsPart.querySelectorAll("vsPart>note")
   ) as Element[]).map(parseNote);
-  return { tick, playTime, singer, comment, notes };
+  return { tick, duration: playTime, singer, comment, notes };
 }
 
 function parseNote(n: Element) {
