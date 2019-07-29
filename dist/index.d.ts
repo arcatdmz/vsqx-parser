@@ -18,6 +18,7 @@ export declare class VSQXParseResultUtil {
         tracks: Track[];
         raw: Element;
     };
+    readonly ticksPerMeasure: number;
     readonly offsetTick: number;
     getOffsetTickForTrack(track: Track): number;
     tickToTime(tick: number): number;
