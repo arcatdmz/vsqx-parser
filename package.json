@@ -9,7 +9,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "parcel example/index.html -d docs",
-    "build-pages": "del-cli -f docs && parcel build example/index.html -d docs",
+    "build-pages": "del-cli -f docs && parcel build example/index.html -d docs --public-url ./",
     "build": "rollup -c",
     "watch": "rollup -cw"
   },
