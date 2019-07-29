@@ -69,13 +69,16 @@ export class VSQXParseResultUtil {
     return this.result.data;
   }
 
-  public get offsetTick() {
-    // 四分音符 [tick] * 4 / 分母 (4なら四分音符) * 分子 (4なら4つで一小節) * プリメジャー
+  public get ticksPerMeasure() {
+    // 四分音符 [tick] * 4 / 分母 (4なら四分音符) * 分子 (4なら4つで一小節)
     return (
       ((this.result.data.resolution * 4) / this.result.data.timeSig.denomi) *
-      this.result.data.timeSig.nume *
-      this.result.data.preMeasure
+      this.result.data.timeSig.nume
     );
+  }
+
+  public get offsetTick() {
+    return this.result.data.preMeasure * this.ticksPerMeasure;
   }
 
   public getOffsetTickForTrack(track: Track) {
