@@ -40,6 +40,11 @@ export interface VSQXParseResult {
     vender: string;
     version: string;
     resolution: number;
+    preMeasure: number;
+    timeSig: {
+      nume: number;
+      denomi: number;
+    };
     voices: Voice[];
     tempos: Tempo[];
     tracks: Track[];

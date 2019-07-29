@@ -1,4 +1,4 @@
-import { VSQXParseResult, Tempo } from "./common";
+import { VSQXParseResult, Tempo, Track } from "./common";
 import { parseVSQ3Tempos, parseVSQ3Tracks, parseVSQ3Voices } from "./vsq3";
 import { parseVSQ4Tempos, parseVSQ4Voices, parseVSQ4Tracks } from "./vsq4";
 
@@ -29,11 +29,20 @@ export function parse(xml: string): VSQXParseResult {
       raw.querySelector("vsq3>version") || raw.querySelector("vsq4>version"),
     version = versionEl && versionEl.textContent;
   const v3 = doc.children[0].tagName === "vsq3";
-  const resolution = parseInt(
-    raw.querySelector(
-      v3 ? "vsq3>masterTrack>resolution" : "vsq4>masterTrack>resolution"
-    ).textContent
-  );
+  const [resolution, preMeasure, nume, denomi] = (v3
+    ? [
+        "vsq3>masterTrack>resolution",
+        "vsq3>masterTrack>preMeasure",
+        "vsq3>masterTrack>timeSig>nume",
+        "vsq3>masterTrack>timeSig>denomi"
+      ]
+    : [
+        "vsq4>masterTrack>resolution",
+        "vsq4>masterTrack>preMeasure",
+        "vsq4>masterTrack>timeSig>nu",
+        "vsq4>masterTrack>timeSig>de"
+      ]
+  ).map(key => parseInt(raw.querySelector(key).textContent));
   const tempos = v3 ? parseVSQ3Tempos(raw) : parseVSQ4Tempos(raw);
   const voices = v3 ? parseVSQ3Voices(raw) : parseVSQ4Voices(raw);
   const tracks = v3
@@ -44,6 +53,8 @@ export function parse(xml: string): VSQXParseResult {
       vender,
       version,
       resolution,
+      preMeasure,
+      timeSig: { nume, denomi },
       voices,
       tempos,
       tracks,
@@ -56,6 +67,19 @@ export class VSQXParseResultUtil {
   constructor(private result: VSQXParseResult) {}
   public get data() {
     return this.result.data;
+  }
+
+  public get offsetTick() {
+    // 四分音符 [tick] * 4 / 分母 (4なら四分音符) * 分子 (4なら4つで一小節) * プリメジャー
+    return (
+      ((this.result.data.resolution * 4) / this.result.data.timeSig.denomi) *
+      this.result.data.timeSig.nume *
+      this.result.data.preMeasure
+    );
+  }
+
+  public getOffsetTickForTrack(track: Track) {
+    return track.content.tick + this.offsetTick;
   }
 
   public tickToTime(tick: number) {
