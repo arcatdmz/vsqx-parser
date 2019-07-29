@@ -2,8 +2,15 @@
 # Rollup.js TypeScript plugin cache
 .rpt2_cache/
 
+# Parcel.js bundler cache
+.cache
+
 # Visual Studio Code configurations
 .vscode/
+
+# Sample code and web page
+example/
+docs/
 
 # Source code
 lib/
