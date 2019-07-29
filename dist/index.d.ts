@@ -1,4 +1,4 @@
-import { VSQXParseResult, Tempo } from "./common";
+import { VSQXParseResult, Tempo, Track } from "./common";
 export * from "./common";
 export declare function parse(xml: string): VSQXParseResult;
 export declare class VSQXParseResultUtil {
@@ -8,11 +8,18 @@ export declare class VSQXParseResultUtil {
         vender: string;
         version: string;
         resolution: number;
+        preMeasure: number;
+        timeSig: {
+            nume: number;
+            denomi: number;
+        };
         voices: import("./common").Voice[];
         tempos: Tempo[];
-        tracks: import("./common").Track[];
+        tracks: Track[];
         raw: Element;
     };
+    readonly offsetTick: number;
+    getOffsetTickForTrack(track: Track): number;
     tickToTime(tick: number): number;
 }
 export declare function timePerTick(tempo: Tempo, resolution: number): number;
